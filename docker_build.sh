@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 default_build () {
-  check_dependency docker
-
   export APP_NAME=$1
   export VERSION=$2
 
@@ -23,15 +21,5 @@ default_build () {
 
   log "Building" $APP_NAME "with version" $VERSION". Tasks:" $GRADLE_TASKS
 
-  publish_build_status 'INPROGRESS'
-
   docker build --build-arg GRADLE_TASKS="${GRADLE_TASKS}" --build-arg VERSION=${VERSION} --no-cache --rm -t ${APP_NAME}:${VERSION} -t ${APP_NAME}:latest .
-
-
-  if [ $? -eq 0 ]; then
-      publish_build_status 'SUCCESSFUL' && exit 0
-  else
-      publish_build_status 'FAILED' && exit 1
-  fi
-
 }
