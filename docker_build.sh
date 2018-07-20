@@ -19,7 +19,7 @@ default_build () {
      GRADLE_TASKS="clean build publish"
   fi
 
-  log "Building" $APP_NAME "with version" $VERSION". Tasks:" $GRADLE_TASKS
+  log "Building $APP_NAME with version $VERSION. Tasks: $GRADLE_TASKS"
 
   docker build --build-arg GRADLE_TASKS="${GRADLE_TASKS}" --build-arg VERSION=${VERSION} --no-cache --rm -t ${APP_NAME}:${VERSION} -t ${APP_NAME}:latest .
 }
