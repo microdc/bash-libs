@@ -21,7 +21,7 @@ default_build () {
   fi
 
   BUILD_ARGS="--build-arg GRADLE_TASKS='${GRADLE_TASKS}' --build-arg VERSION=${VERSION}"
-  if [ ! -z $CONTAINER_REGISTRY ]; then
+  if [ -n "$CONTAINER_REGISTRY" ]; then
     BUILD_ARGS+=" --build-arg CONTAINER_REGISTRY=${CONTAINER_REGISTRY}"
   fi
 
