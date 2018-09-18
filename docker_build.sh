@@ -20,12 +20,10 @@ default_build () {
      GRADLE_TASKS="clean build publish"
   fi
 
-  BUILD_ARGS="--build-arg GRADLE_TASKS='${GRADLE_TASKS}' --build-arg VERSION=${VERSION}"
-  if [ -n "$CONTAINER_REGISTRY" ]; then
-    BUILD_ARGS+=" --build-arg CONTAINER_REGISTRY=${CONTAINER_REGISTRY}"
-  fi
-
   log "Building $APP_NAME with version $VERSION. Tasks: $GRADLE_TASKS"
 
-  docker build ${BUILD_ARGS} --no-cache --rm -t ${APP_NAME}:${VERSION} -t ${APP_NAME}:latest .
-}
+  if [ -n "$CONTAINER_REGISTRY" ]; then
+      docker build --build-arg GRADLE_TASKS="${GRADLE_TASKS}" --build-arg VERSION=${VERSION} --build-arg CONTAINER_REGISTRY=${CONTAINER_REGISTRY} --no-cache --rm -t ${APP_NAME}:${VERSION} -t ${APP_NAME}:latest .
+  else
+      docker build --build-arg GRADLE_TASKS="${GRADLE_TASKS}" --build-arg VERSION=${VERSION} --no-cache --rm -t ${APP_NAME}:${VERSION} -t ${APP_NAME}:latest .
+  fi
