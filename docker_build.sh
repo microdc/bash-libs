@@ -27,3 +27,4 @@ default_build () {
   else
       docker build --build-arg GRADLE_TASKS="${GRADLE_TASKS}" --build-arg VERSION=${VERSION} --no-cache --rm -t ${APP_NAME}:${VERSION} -t ${APP_NAME}:latest .
   fi
+}
