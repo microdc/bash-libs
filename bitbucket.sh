@@ -4,7 +4,8 @@ publish_build_status() {
 
   if ! [ -z $BUILD_NUMBER ]; then
 
-    local STATUS=$1
+    local STATUS=${1}
+    local GIT_COMMIT=${2:-}
 
     log "Publishing ${STATUS} to bitbucket"
 
@@ -18,7 +19,8 @@ publish_build_status() {
       ACCESS_TOKEN=$(echo $TOKEN_RESPONSE | jq -r .access_token)
     fi
 
-    GIT_COMMIT=$(git rev-parse HEAD)
+    # Only grab GIT_COMMIT from current git repo if it didn't get passed to the script
+    [[ -n "${GIT_COMMIT}" ]] || GIT_COMMIT=$(git rev-parse HEAD)
 
     curl -s \
         -H 'Content-Type: application/json' \
